@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <head>
+    <title>JSON WebSocket Client Example</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="client.css" type="text/css" />
+    <script src="client.js" type="text/javascript"></script>
+  </head>
+
+  <body onload="insertTool();">
+
+    <h1>Example Client for JSON WebSocket Server</h1>
+
+    <p>This page is used to experiment and test the JSON WebSocket
+      server interface. Make sure the server is configured and running
+      and that you know the URL to connect to.</p>
+    <div id="tool"></div>
+
+    <h1>JSON Messages</h1>
+    <p>
+      Messages sent across the web socket connection will always be in
+      a JSON format and each message will contain a single JSON object
+      having at least an <em>op</em> attribute to uniquely identify
+      the operation to be performed.  Other than the <em>op</em>
+      attribute to identify the action, all other attributes are
+      dependent upon the action being requested. The recognized
+      message types are described below.
+    </p>
+    <p>
+      <b>NOTE</b>: If authentication is enabled, you will need to
+      perform the <em>authenticate</em> action prior to any other
+      operation.
+    </p>
+
+    <h2>authenticate: Authenticate (after connection)</h2>
+
+    <div class="summary">
+Request:
+<pre class="jsonMsg">{
+  "op": "authenticate",
+  "key": "UNIQUE_KEY"
+}</pre></div>
+Response:
+<pre class="jsonMsg">{
+  "op": "authenticate",
+  "authenticated": true
+}</pre></div>
+  <div class="description">
+    If the service has been configured with authentication enabled,
+    you MUST post this message after your initial connection to
+    authenticate yourself before you will be permitted to perform any
+    other operations. At a minimum, you will receive a response with
+    the <em>authenticated</em> attribute set to <em>true</em>. If
+    authentication is not enabled, you may receive this on your
+    initial connect. Once received, you should NOT attempt to
+    authenticate yourself again. Failure or invalid authentication
+    attempts will result in the closing of your connection.
+  </div>
+
+    <h2>exec: Spawn Process</h2>
+
+    <div class="summary">
+Request (start):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "cmd": "CMD",
+  "args": [ "ARG0", "ARG1", "ARGN" ],
+  "options": { },
+  "encoding": "utf-8"
+}</pre>
+
+Response (start):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "cmd": "CMD",
+  "args": [ "ARG0", "ARG1", "ARGN" ],
+  "options": { },
+  "encoding": "utf-8"
+}</pre>
+
+Response (stdout - with encoding):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "pid": 17281,
+  "state": "out",
+  "text": "PART OF OUTPUT IN SPECIFIED ENCODING AS STRING"
+}</pre>
+
+Response (stdout - binary):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "pid": 17281,
+  "state": "out",
+  "text": "PART OF OUTPUT IN SPECIFIED ENCODING AS STRING"
+}</pre>
+
+Response (stderr - with encoding):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "pid": 17281,
+  "state": "err",
+  "text": "PART OF OUTPUT IN SPECIFIED ENCODING AS STRING"
+}</pre>
+
+Response (exit):
+<pre class="jsonMsg">{
+  "op": "exec",
+  "pid": 17281,
+  "state": "exit",
+  "startedBy": { },
+  "code": 0,
+  "signal": null
+}</pre>
+
+Response (error):<pre class="jsonMsg">{
+  "op": "exec",
+  "state": "error",
+  "startedBy": { },
+  "message": "SYSTEM MESSAGE DESCRIBING ERROR"
+}</pre></div>88
+
+    <div class="description">
+      This message is used to start a new process on the server. You
+      must specify the <em>cmd</em>, <em>args</em> (can be empty
+      array), and <em>options</em> (can be empty object). If you want
+      text output, you must specify an <em>encoding</em> type (like
+      "utf-8", but it can depend on the command you are
+      running). Refer to
+      the <a href="https://nodejs.org/api/child_process.html">child_process.spawn</a>
+      document for details on the <em>options</em>.
+
+      <p>After starting a new process, expect several different types of <em>exec</em> messages coming back.</p>
+
+      <dl>
+        <dt>"state": "started"</dt>
+        <dd>This message is returned letting you know that the process
+        has been started at the server. It will include the process ID
+        (<em>pid</em>) tied to the process.</dd>
+        <dt>"state": "out" and "state": "err"</dt>
+        <dd>These messages occur as the running process writes data to
+        stdout (<em>out</em>) and stderr (<em>err</em>). These
+        messages will include the process ID (<em>pid</em>) of the
+        process that generated the output. The output value will
+        appear as a string (<em>text</em>) if an <em>encoding</em>
+        value was specified when the process was started. If
+        an <em>encoding</em> value was not specified, you will get the
+        raw binary data (<em>bytes</em>) to play with.</dd>
+        <dt>"state": "exit"</dt>
+        <dd>This message is returned once the process terminates. It
+        will always include the process ID (<em>pid</em>) as the
+        original paramters used to start the process
+        (<em>startedBy</em>). It will also include a <em>code</em>
+        and <em>signal</em> attribute, however at least one of them
+        will be <em>null</em>. The <em>code</em> attribute will be an
+        integer value based on the process exit code if the process
+        ended normally. The <em>signal</em> will be a string
+        indicating the signal that killed the process if the process
+        was terminated by a signal instead of a normal exit.</dd>
+        <dt>"state": "error"</dt>
+        <dd>This message is returned if an abnormal situation occurs
+        when starting the process. For example, if you tried to
+        execute something that was not on the system. You will not get
+        a process ID in the response as the process did not start. You
+        will get a system error message (<em>message</em>) and the
+        original command that attempted to start the process
+        (<em>startedBy</em>).</dd>
+      </dl>
+    </div>
+
+    <h2>kill: Kill Spawned Process</h2>
+
+    <div class="summary">Request:
+<pre class="jsonMsg">{
+  "op": "kill",
+  "pid": PID,
+  "signal": "SIGTERM"
+}</pre></div>
+    <div class="summary">Response:
+<pre class="jsonMsg">{
+  "op": "kill",
+  "pid": PID,
+  "signal": "SIGTERM",
+  "killed": true,
+  "message": "Description of results"
+}</pre></div>
+    <div class="description">
+      This message is used to start a new process on the server. You
+      must specify the <em>cmd</em>, <em>args</em> (can be empty
+      array), and <em>options</em> (can be empty object). If you want
+      text output, you must specify an <em>encoding</em> type (like
+      "utf-8", but it can depend on the command you are
+      running). Refer to
+      the <a href="https://nodejs.org/api/child_process.html">child_process.spawn</a>
+      document for details on the <em>options</em>.
+    </div>
+
+    <h2>time: Get Server Time</h2>
+
+    <div class="summary">Request:<pre class="jsonMsg">{
+  "op": "time"
+}</pre>
+    </div>
+    <div class="summary">Response:<pre class="jsonMsg">{
+  "op": "time",
+  "time": MILLIS
+}</pre>
+    <div class="description">
+      Returns the current server time as a standard JavaScript timestamp (millissecond count from the epoch).
+    </div>
+
+    <h2>echo</h2>
+
+    <div class="summary">Request:<pre class="jsonMsg">{
+  "op": "echo",
+  "text": "MESSAGE"
+}</pre>
+    </div>
+    <div class="summary">Response:<pre class="jsonMsg">{
+  "op": "echo",
+  "text": "MESSAGE"
+}</pre>
+    <div class="description">
+      TODO.
+    </div>
+
+    </body>
+</html>
