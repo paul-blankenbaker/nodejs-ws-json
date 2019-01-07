@@ -13,7 +13,11 @@ $(SPEC)::	$(PKG).spec makefile
 $(SOURCE)::
 	(cd .. && npm pack && mv $(PKG)-$(VER).tgz $(@))
 
+$(HOME)/rpmbuild/SRPMS/$(PKG)-$(VER)-$(RELEASE).src.rpm:: $(SPEC) $(SOURCE)
+	rpmbuild -bs $(SPEC);
+
 $(HOME)/rpmbuild/RPMS/noarch/$(PKG)-$(VER)-$(RELEASE).noarch.rpm:: $(SPEC) $(SOURCE)
 	rpmbuild -bb $(SPEC);
 
-rpm::	$(HOME)/rpmbuild/RPMS/noarch/$(PKG)-$(VER)-$(RELEASE).noarch.rpm
+rpm::	$(HOME)/rpmbuild/SRPMS/$(PKG)-$(VER)-$(RELEASE).src.rpm \
+	$(HOME)/rpmbuild/RPMS/noarch/$(PKG)-$(VER)-$(RELEASE).noarch.rpm
