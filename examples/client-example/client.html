@@ -34,29 +34,25 @@
       operation.
     </p>
 
-    <h2>authenticate: Authenticate (after connection)</h2>
+    <h2>auth: Authenticate (after connection)</h2>
 
     <div class="summary">
 Request:
 <pre class="jsonMsg">{
-  "op": "authenticate",
-  "key": "UNIQUE_KEY"
+  "op": "auth",
+  "key": "admin"
 }</pre></div>
 Response:
 <pre class="jsonMsg">{
-  "op": "authenticate",
+  "op": "auth",
   "authenticated": true
 }</pre></div>
   <div class="description">
-    If the service has been configured with authentication enabled,
-    you MUST post this message after your initial connection to
-    authenticate yourself before you will be permitted to perform any
-    other operations. At a minimum, you will receive a response with
-    the <em>authenticated</em> attribute set to <em>true</em>. If
-    authentication is not enabled, you may receive this on your
-    initial connect. Once received, you should NOT attempt to
-    authenticate yourself again. Failure or invalid authentication
-    attempts will result in the closing of your connection.
+    Depending on how the server is configured/run, you may need to
+    authenticate yourself in some manner before being allowed to
+    access the provided services. In the simple example, a simple
+    authentication method is used where you must send the message
+    shown above.
   </div>
 
     <h2>exec: Spawn Process</h2>
@@ -167,6 +163,7 @@ Response (error):<pre class="jsonMsg">{
         original command that attempted to start the process
         (<em>startedBy</em>).</dd>
       </dl>
+      <p>NOTE: This handler is <em>not enabled</em> in the simple sample.</p>
     </div>
 
     <h2>kill: Kill Spawned Process</h2>
@@ -194,6 +191,7 @@ Response (error):<pre class="jsonMsg">{
       running). Refer to
       the <a href="https://nodejs.org/api/child_process.html">child_process.spawn</a>
       document for details on the <em>options</em>.
+      <p>NOTE: This handler is <em>not enabled</em> in the simple sample.</p>
     </div>
 
     <h2>time: Get Server Time</h2>
@@ -222,7 +220,7 @@ Response (error):<pre class="jsonMsg">{
   "text": "MESSAGE"
 }</pre>
     <div class="description">
-      TODO.
+      This handler simply echos back the message received.
     </div>
 
     </body>

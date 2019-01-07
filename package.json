@@ -28,11 +28,11 @@
   },
   "dependencies": {
     "async-limiter": "^1.0.0",
-    "safe-buffer": "^5.1.2",
-    "ultron": "^1.1.1"
+    "safe-buffer": "^5.1.0",
+    "ultron": "^1.1.0"
   },
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=8.11.0"
   },
   "devDependencies": {
     "benchmark": "~2.1.2",

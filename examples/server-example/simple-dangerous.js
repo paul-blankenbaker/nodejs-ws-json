@@ -6,6 +6,17 @@ const getAttribute = JsonWebSocket.Client.getAttribute;
 const fsHandlers = require('../../handlers/fs');
 
 // Construct new instance of server
+//
+// NOTE: Instead of hard coding your configuration, you could
+// do something like the following to load the config from a file:
+//
+// const cfg = require("/etc/myserver.cfg.json");
+// const server = new JsonWebSocket.Server(cfg);
+//
+// Or as a single line:
+//
+// const server = new JsonWebSocket.Server(require("/etc/myserver.cfg.json"));
+
 const server = new JsonWebSocket.Server({
   // Port to listen on
   "port": 9981,
@@ -83,7 +94,8 @@ server.setAuthHandler("auth", (cc, msg) => {
   let key = getAttribute(msg, "key", "MISSING");
   if ("admin" === key) {
     server.setAuthenticated(cc);
-    
+    delete msg["key"];
+    msg["authenticated"] = true;
     cc.sendObj("auth", msg);
   } else {
     // Throwing exception forces client to connect again to log in

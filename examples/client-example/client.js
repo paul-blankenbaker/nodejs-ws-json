@@ -179,22 +179,27 @@ Tool.prototype.getWidget = function() {
   
   var quickList = this.appendElement(widget, "select");
   var choices = [
-    "authenticate: Enable Actions", {
-      "op": "authenticate",
-      "comment": "NOTE: How authentication is done is configurable"
+    "auth: Authenticate", {
+      "op": "auth",
+      "key": "admin",
+      "comment": "NOTE: How authentication is done is configurable by server"
     },
     "status: Get some status info", { "op": "status" },
+    "time: Current Time", { "op": "time" },
+    "echo: Echo Back JSON", { "op": "echo", "text": "entire JSON message should come back" },
+    "circle: Compute Circle", { "op": "circle", "radius": 1.0 },
+    "top: Process Information", {
+      "op": "top"
+    },
+    "verbosity: Get log verbosity", { "op": "verbosity" },
+    "verbosity: Set log verbosity", { "op": "verbosity", "set": 9 },
     "exec: bash", {
       "op": "exec", "cmd": "/bin/bash",
       "args": [ "-c", "ls -l /etc/hosts; for ((i = 0; i < 20; i++)); do date; sleep 3; done" ], "options": { },
       "encoding": "utf-8" },
     "kill: Stop Child Process", { "op": "kill", "signal": "SIGTERM", "pid": -1 },
     "stat: File Info", { "op": "stat", "path": "/etc/hosts" },
-    "readdir: Directory Listing", { "op": "readdir", "path": "/etc/sysconfig", "options": { } },
-    "time: Current Time", { "op": "time" },
-    "verbosity: Get log verbosity", { "op": "verbosity" },
-    "verbosity: Set log verbosity", { "op": "verbosity", "set": 9 },
-    "echo: Echo Back JSON", { "op": "echo", "text": "entire JSON message should come back" }
+    "readdir: Directory Listing", { "op": "readdir", "path": "/etc/sysconfig", "options": { } }
   ];
 
   for (var i = 0; i < choices.length;) {
