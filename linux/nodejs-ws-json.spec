@@ -61,5 +61,5 @@ make test
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
-* Fri Jan 04 2019 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.0.0-2
+* Fri Jan 04 2019 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.0.0-4
 - Initial release
