@@ -14,7 +14,6 @@ License:       MIT
 URL:           https://github.com/paul-blankenbaker/nodejs-ws-json
 Source0:       %{npm_name}-%{version}.tgz
 Requires:      nodejs-ws
-BuildRequires: nodejs-devel
 %if 0%{?enable_tests}
 BuildRequires:  npm(ansi)
 BuildRequires:  npm(benchmark)
