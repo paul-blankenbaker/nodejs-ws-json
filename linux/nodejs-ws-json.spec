@@ -14,13 +14,14 @@ License:       MIT
 URL:           https://github.com/paul-blankenbaker/nodejs-ws-json
 Source0:       %{npm_name}-%{version}.tgz
 Requires:      nodejs-ws
+BuildRequires: nodejs-packaging
 %if 0%{?enable_tests}
-BuildRequires:  npm(ansi)
-BuildRequires:  npm(benchmark)
-BuildRequires:  npm(expect.js)
-BuildRequires:  npm(mocha)
-BuildRequires:  npm(should)
-BuildRequires:  npm(tinycolor)
+BuildRequires: npm(ansi)
+BuildRequires: npm(benchmark)
+BuildRequires: npm(expect.js)
+BuildRequires: npm(mocha)
+BuildRequires: npm(should)
+BuildRequires: npm(tinycolor)
 %endif
 BuildArch:     noarch
 ExclusiveArch: %{nodejs_arches} noarch

@@ -1,6 +1,6 @@
 PKG=nodejs-ws-json
 VER=$(shell echo 'console.log(require("../package.json").version);' | node)
-RELEASE=5
+RELEASE=6
 SPEC=$(HOME)/rpmbuild/SPECS/$(PKG).spec
 SOURCE=$(HOME)/rpmbuild/SOURCES/$(PKG)-$(VER).tgz
 
