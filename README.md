@@ -53,3 +53,18 @@ web browser (tested on Chrome).
 - There is a quick list that will load some JSON messages that can be
   processed by the factory default handlers (however, if you have the
   factory default handlers disabled, this won't do much for you).
+
+# Build Commands
+
+## To Build/Test
+
+```
+npm install
+npm test
+```
+
+## To Package
+
+```
+npm pack
+```
