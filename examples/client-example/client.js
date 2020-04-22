@@ -186,6 +186,8 @@ Tool.prototype.getWidget = function() {
     },
     "status: Get some status info", { "op": "status" },
     "time: Current Time", { "op": "time" },
+    "timeIs: Periodic Time On", { "op": "timeIs", "millisBetween": 2000 },
+    "timeIs: Periodic Time Off", { "op": "timeIs", "millisBetween": 0 },
     "echo: Echo Back JSON", { "op": "echo", "text": "entire JSON message should come back" },
     "circle: Compute Circle", { "op": "circle", "radius": 1.0 },
     "top: Process Information", {

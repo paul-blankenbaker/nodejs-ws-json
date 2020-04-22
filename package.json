@@ -1,7 +1,7 @@
 {
   "name": "nodejs-ws-json",
   "description": "A JSON framework layer on top of the ws Node.js WebSocket module",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Paul Blankenbaker <paul.blankenbaker@gmail.com>",
   "bugs": {
     "url": "https://github.com/paul-blankenbaker/nodejs-ws-json/issues"
@@ -27,17 +27,17 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "async-limiter": "^1.0.0",
-    "safe-buffer": "^5.1.0",
-    "ultron": "^1.1.0"
+    "async-limiter": "^2.0.0",
+    "safe-buffer": "^5.2.0",
+    "ultron": "^1.1.1"
   },
   "engines": {
     "node": ">=8.11.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": ">=6.2.0",
-    "ws": "^3.3.3"
+    "mocha": ">=7.1.1",
+    "ws": "^7.2.3"
   },
   "directories": {
     "lib": "lib"

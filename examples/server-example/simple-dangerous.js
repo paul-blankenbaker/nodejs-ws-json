@@ -73,6 +73,40 @@ server.setHandler("circle", (cc, msg) => {
   cc.sendObj("circle", msg);
 });
 
+// Example of adding a handler that continually posts a message to
+// the client
+server.setHandler("timeIs", (cc, msg) => {
+  const millis = parseInt(getAttribute(msg, "millisBetween", 0));
+
+  if (cc.timeIsInterval !== undefined) {
+    clearInterval(cc.timeIsInterval);
+    delete cc.timeIsInterval;
+  }
+
+  // If enabling, set up new interval to post current time
+  if (millis > 0) {
+    if (cc.shouldLog(3)) {
+      console.log("Starting timeIs interval to post time every "
+		  + millis + " milliseconds");
+    }
+    
+    cc.timeIsInterval = setInterval(() => {
+      if (cc.isOpen()) {
+	if (cc.shouldLog(6)) {
+	  console.log("Sending time to: " + cc);
+	}
+	cc.sendObj("timeIs", { "time": Date.now() });
+      } else {
+	if (cc.shouldLog(2)) {
+	  console.log("Connection closed while timeIs was active to: " + cc);
+	}
+	clearInterval(cc.timeIsInterval);
+	delete cc.timeIsInterval;
+      }
+    }, millis);
+  }
+});
+
 // Example of adding handler that runs a specific system command
 // (output will come asyncrhonously and over multiple messages)
 server.setHandler("top", (cc, msg) => {
