@@ -61,5 +61,8 @@ make test
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Wed Apr 22 2020 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.1.0-6
+- Added some more convenience methods to the client and server classes.
+
 * Fri Jan 04 2019 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.0.0-4
 - Initial release
