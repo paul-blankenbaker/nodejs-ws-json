@@ -68,3 +68,14 @@ npm test
 ```
 npm pack
 ```
+
+## To Run Example Server
+
+```
+node examples/server-example/simple-dangerous.js
+```
+
+## To Run Example/Test Client
+
+Open *examples/client-example/client.html* in a web browser.
+
