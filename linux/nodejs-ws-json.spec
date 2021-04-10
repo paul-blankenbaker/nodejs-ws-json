@@ -61,6 +61,9 @@ make test
 %{nodejs_sitelib}/%{npm_name}
 
 %changelog
+* Sat Apr 10 2021 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.1.1-6
+- Bumped y18n dependency from 4.0.0 to 4.0.1 for security updates.
+
 * Wed Apr 22 2020 Paul Blankenbaker <paul.blankenbaker@gmail.com> - 1.1.0-6
 - Added some more convenience methods to the client and server classes.
 

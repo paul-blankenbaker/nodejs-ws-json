@@ -1,7 +1,7 @@
 {
   "name": "nodejs-ws-json",
   "description": "A JSON framework layer on top of the ws Node.js WebSocket module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Paul Blankenbaker <paul.blankenbaker@gmail.com>",
   "bugs": {
     "url": "https://github.com/paul-blankenbaker/nodejs-ws-json/issues"
